@@ -44,8 +44,14 @@ namespace CookBook.UI
                 recipeIngredients.Add(new RecipeIngredientVM(ingredient.IngredientId, ingredient.Name, ingredient.Amount));
             }
 
-            RecipeIngredientsLbx.DataSource = recipeIngredients;
-            RecipeIngredientsLbx.DisplayMember = "NameWithAmount";
+            List<ListBoxItemVM> customLbxItems = new List<ListBoxItemVM>();
+
+            foreach (var ri in recipeIngredients)
+            {
+                customLbxItems.Add(new ListBoxItemVM(ri, ri.NameWithAmount));
+            }
+
+            RecipeIngredientsCustomLbx.setDataSource(customLbxItems);            
         }
         private async void RefreshAllIngredients()
         {
@@ -63,7 +69,6 @@ namespace CookBook.UI
 
             AllIngredientsCustomLbx.setDataSource(itemsList);
         }
-
         private async void AddIngredientBtn_Click(object sender, EventArgs e)
         {
             if (AllIngredientsCustomLbx.SelectedItem != null && AllIngredientsCustomLbx.SelectedItem.Item != null)
@@ -74,8 +79,8 @@ namespace CookBook.UI
                     Ingredient selectedIngredient = (Ingredient)AllIngredientsCustomLbx.SelectedItem.Item;
 
                     RecipeIngredient newrecipeIngredient = new RecipeIngredient(RecipeId, selectedIngredient.Id, amountform.Amount);
-
-                    bool isExistingIngredient = ((List<RecipeIngredientVM>)RecipeIngredientsLbx.DataSource).Any(i => i.IngredientId == selectedIngredient.Id);
+                   
+                    bool isExistingIngredient = CheckIsExistingIngredient(selectedIngredient.Id, RecipeIngredientsCustomLbx.DataSource);
                     if (isExistingIngredient)
                         await _recipeIngredientsRepository.EditRecipeIngredientAmount(newrecipeIngredient);
                     else
@@ -85,12 +90,21 @@ namespace CookBook.UI
                 }
             }
         }
-
+        private bool CheckIsExistingIngredient(int selectedIngredientId, List<ListBoxItemVM> dataSource)
+        {
+            foreach (ListBoxItemVM customLbxItem in dataSource)
+            {
+                RecipeIngredientVM ri = customLbxItem.Item as RecipeIngredientVM;
+                if (ri.IngredientId == selectedIngredientId)
+                    return true;               
+            }
+            return false;
+        }
         private async void RemoveIngredientsBtn_Click(object sender, EventArgs e)
         {
-            if (RecipeIngredientsLbx.SelectedItem != null)
+            if (RecipeIngredientsCustomLbx.SelectedItem != null)
             {
-                RecipeIngredientVM ingredient = (RecipeIngredientVM)RecipeIngredientsLbx.SelectedItem;
+                RecipeIngredientVM ingredient = (RecipeIngredientVM)RecipeIngredientsCustomLbx.SelectedItem.Item;
 
                 await _recipeIngredientsRepository.DeleteRecipeIngredient(ingredient.IngredientId, RecipeId);
 

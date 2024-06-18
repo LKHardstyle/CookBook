@@ -33,11 +33,12 @@
             // 
             // CustomLbx
             // 
+            CustomLbx.Dock = DockStyle.Fill;
             CustomLbx.FormattingEnabled = true;
             CustomLbx.ItemHeight = 15;
-            CustomLbx.Location = new Point(3, 3);
+            CustomLbx.Location = new Point(0, 0);
             CustomLbx.Name = "CustomLbx";
-            CustomLbx.Size = new Size(252, 409);
+            CustomLbx.Size = new Size(258, 414);
             CustomLbx.TabIndex = 0;
             CustomLbx.DrawItem += CustomLbx_DrawItem;
             CustomLbx.MeasureItem += CustomLbx_MeasureItem;

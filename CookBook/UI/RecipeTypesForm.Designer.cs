@@ -29,31 +29,22 @@
         private void InitializeComponent()
         {
             NewTypeTxt = new TextBox();
-            RecipeTypesLbx = new ListBox();
             label1 = new Label();
             AddRecipeTypeBtn = new Button();
+            RecipeTypesCustomLbx = new Assets.CustomUserControls.CustomListBox();
             SuspendLayout();
             // 
             // NewTypeTxt
             // 
-            NewTypeTxt.Location = new Point(87, 21);
+            NewTypeTxt.Location = new Point(79, 26);
             NewTypeTxt.Name = "NewTypeTxt";
             NewTypeTxt.Size = new Size(321, 35);
             NewTypeTxt.TabIndex = 0;
             // 
-            // RecipeTypesLbx
-            // 
-            RecipeTypesLbx.FormattingEnabled = true;
-            RecipeTypesLbx.ItemHeight = 30;
-            RecipeTypesLbx.Location = new Point(13, 73);
-            RecipeTypesLbx.Name = "RecipeTypesLbx";
-            RecipeTypesLbx.Size = new Size(395, 394);
-            RecipeTypesLbx.TabIndex = 1;
-            // 
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(13, 24);
+            label1.Location = new Point(12, 26);
             label1.Name = "label1";
             label1.Size = new Size(61, 30);
             label1.TabIndex = 2;
@@ -63,20 +54,28 @@
             // 
             AddRecipeTypeBtn.Location = new Point(12, 509);
             AddRecipeTypeBtn.Name = "AddRecipeTypeBtn";
-            AddRecipeTypeBtn.Size = new Size(396, 41);
+            AddRecipeTypeBtn.Size = new Size(388, 41);
             AddRecipeTypeBtn.TabIndex = 3;
             AddRecipeTypeBtn.Text = "Add";
             AddRecipeTypeBtn.UseVisualStyleBackColor = true;
             AddRecipeTypeBtn.Click += AddRecipeTypeBtn_Click;
             // 
+            // RecipeTypesCustomLbx
+            // 
+            RecipeTypesCustomLbx.Location = new Point(12, 79);
+            RecipeTypesCustomLbx.Name = "RecipeTypesCustomLbx";
+            RecipeTypesCustomLbx.SelectedItem = null;
+            RecipeTypesCustomLbx.Size = new Size(388, 407);
+            RecipeTypesCustomLbx.TabIndex = 4;
+            // 
             // RecipeTypesForm
             // 
             AutoScaleDimensions = new SizeF(12F, 30F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(443, 589);
+            ClientSize = new Size(427, 589);
+            Controls.Add(RecipeTypesCustomLbx);
             Controls.Add(AddRecipeTypeBtn);
             Controls.Add(label1);
-            Controls.Add(RecipeTypesLbx);
             Controls.Add(NewTypeTxt);
             Font = new Font("Segoe UI", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             Margin = new Padding(5, 6, 5, 6);
@@ -90,8 +89,8 @@
         #endregion
 
         private TextBox NewTypeTxt;
-        private ListBox RecipeTypesLbx;
         private Label label1;
         private Button AddRecipeTypeBtn;
+        private Assets.CustomUserControls.CustomListBox RecipeTypesCustomLbx;
     }
 }

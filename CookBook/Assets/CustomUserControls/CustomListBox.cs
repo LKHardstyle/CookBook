@@ -15,6 +15,7 @@ namespace CookBook.Assets.CustomUserControls
     public partial class CustomListBox : UserControl
     {
         public event Action<ListBoxItemVM> OnSelectedItemChanged;
+        public List<ListBoxItemVM> DataSource { get { return (List<ListBoxItemVM>)CustomLbx.DataSource; } }
         public ListBoxItemVM SelectedItem { get; set; }
         public CustomListBox()
         {
