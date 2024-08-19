@@ -1,4 +1,5 @@
-﻿using Dapper;
+﻿using CookBook.Services;
+using Dapper;
 using DataAcceessLayer.Contracts;
 using DomainModel.Models;
 using System;
@@ -6,6 +7,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
+using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -16,6 +18,9 @@ namespace DataAcceessLayer.Repositories
     public class IngredientsRepository : IIngredientsRepository
     {
         public event Action<string> OnError;
+
+        public event Action<string> OnSuccess;
+
         public async Task AddIngredient(Ingredient ingredient)
         {
             try
@@ -25,7 +30,7 @@ namespace DataAcceessLayer.Repositories
                 values(@Name, @Weight, @KcalPer100g, @PricePer100g, @Type)";
 
                 using (IDbConnection connection = new SqlConnection(ConnectionHelper.ConnectionString))
-                {
+                {                   
                     await connection.ExecuteAsync(query, ingredient);
                 }
             }
@@ -46,7 +51,16 @@ namespace DataAcceessLayer.Repositories
         }
         private void ErrorOccured(string errorMessage)
         {
-            OnError.Invoke(errorMessage);
+            if(OnError != null)
+            {
+                OnError.Invoke(errorMessage);
+                Logger.LogError(errorMessage, DateTime.Now);
+            }                
+        }
+        private void SuccessfullyCompleted(string successMessage)
+        {
+            if(OnSuccess != null)
+                OnSuccess.Invoke(successMessage);
         }
         public async Task<List<Ingredient>> GetIngredients(string? name = "")
         {
@@ -109,6 +123,34 @@ namespace DataAcceessLayer.Repositories
                 ErrorOccured(errorMessage);
             }
             
+        }
+        public async Task UpdateAmounts(List<RecipeIngredient> recipeIngredients)
+        {
+            string query = "";
+
+            foreach (RecipeIngredient recipeIngredient in recipeIngredients)
+            {
+                string formattedAmount = recipeIngredient.Amount.ToString("0.00", CultureInfo.InvariantCulture);
+
+                query += $@"update Ingredients
+                            set
+                            Weight = Weight - {formattedAmount}
+                            where Id = {recipeIngredient.IngredientId} ";
+            }
+            try
+            {                
+                using (IDbConnection connection = new SqlConnection(ConnectionHelper.ConnectionString))
+                {
+                    await connection.ExecuteAsync(query);
+                    SuccessfullyCompleted("SuccessFully Completed!");
+                }
+                
+            }
+            catch (Exception ex)
+            {
+                string errorMessage = "An error happend while updating Ingredients";
+                ErrorOccured(errorMessage);
+            }
         }
     }
 }

@@ -15,5 +15,6 @@ namespace DataAcceessLayer.Contracts
         public Task<List<RecipeWithType>> GetRecipe();
         public Task DeleteRecipe(int Id);
         public Task EditRecipe(Recipe recipe);
+        public Task<List<Recipe>> GetAllRecipe();
     }
 }

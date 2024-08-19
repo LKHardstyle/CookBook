@@ -12,6 +12,7 @@ namespace DomainModel.Models
         public int RecipeId { get; set; }
         public int IngredientId { get; set; }
         public decimal Amount { get; set; }
+        public RecipeIngredient() { }
 
         public RecipeIngredient(int recipeId, int ingredientId, decimal amount)
         {            
@@ -19,5 +20,6 @@ namespace DomainModel.Models
             IngredientId = ingredientId;
             Amount = amount;
         }
+        
     }
 }

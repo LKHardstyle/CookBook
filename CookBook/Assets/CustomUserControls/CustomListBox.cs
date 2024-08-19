@@ -56,8 +56,7 @@ namespace CookBook.Assets.CustomUserControls
             }
         }
         private void SelectedItemChanged(ListBoxItemVM? selecteditem)
-        {
-            //OnSelectedItemChanged?.Invoke(SelectedItem);
+        {            
             if (OnSelectedItemChanged != null && selecteditem != null)
                 OnSelectedItemChanged.Invoke(selecteditem);
         }

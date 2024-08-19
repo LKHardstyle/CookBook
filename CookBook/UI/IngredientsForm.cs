@@ -119,7 +119,7 @@ namespace CookBook.UI
             {
                 isValid = false;
                 message += "Please enter name. \n\n";
-            }           
+            }            
             if (string.IsNullOrEmpty(TypeTxt.Text))
             {
                 isValid = false;

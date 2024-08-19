@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Dapper;
 using System.Xml.Linq;
+using CookBook.Services;
 
 namespace DataAcceessLayer.Repositories
 {
@@ -55,6 +56,7 @@ namespace DataAcceessLayer.Repositories
         private void ErrorOccured(string errorMessage)
         {
             OnError.Invoke(errorMessage);
+            Logger.LogError(errorMessage, DateTime.Now);
         }
     }
 }

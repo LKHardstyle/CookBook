@@ -9,6 +9,7 @@ using System.Data.SqlClient;
 using System.Data;
 using Dapper;
 using DataAcceessLayer.CustomQueryResults;
+using CookBook.Services;
 
 namespace DataAcceessLayer.Repositories
 {
@@ -18,6 +19,7 @@ namespace DataAcceessLayer.Repositories
         private void ErrorOccured(string errorMessage)
         {
             OnError.Invoke(errorMessage);
+            Logger.LogError(errorMessage, DateTime.Now);
         }
 
         public async Task AddRecipe(Recipe recipe)
@@ -106,6 +108,25 @@ namespace DataAcceessLayer.Repositories
             {
                 string errorMessage = "An error happend while editing Recipe";
                 ErrorOccured(errorMessage);
+            }
+        }
+
+        public async Task<List<Recipe>> GetAllRecipe()
+        {
+            try
+            {
+                string query = "select * from Recipes";
+
+                using (IDbConnection connection = new SqlConnection(ConnectionHelper.ConnectionString))
+                {
+                    return (await connection.QueryAsync<Recipe>(query)).ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                string errorMessage = "An error happend while getting all recipes";
+                ErrorOccured(errorMessage);
+                return new List<Recipe>();
             }
         }
     }

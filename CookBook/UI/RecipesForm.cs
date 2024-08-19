@@ -22,16 +22,7 @@ namespace CookBook.UI
     {
         private readonly IRecipeTypesRepository _recipeTypesRepository;
         private readonly IServiceProvider _serviceProvider;
-        private readonly IRecipesRepository _recipesRepository;
-        private Image _placeholderImage
-        {
-            get
-            {
-                var executingAssemblyLocation = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-                var imagePath = Path.Combine(executingAssemblyLocation, "Assets\\Images\\recipe_placeholder_image.png");
-                return Image.FromFile(imagePath);
-            }
-        }
+        private readonly IRecipesRepository _recipesRepository;      
         private bool _isUserImageAdded = false;
         private int _RecipeToEditId;
         private List<RecipeWithType> _recipesCache;
@@ -100,7 +91,7 @@ namespace CookBook.UI
             await RefreshRecipeTypes();
             RefreshRecipesCache();
             CustomizeGridAppearance();
-            RecipePictureBox.Image = _placeholderImage;
+            RecipePictureBox.Image = ImageHelper.PlaceholderImage;
             RecipePictureBox.SizeMode = PictureBoxSizeMode.StretchImage;
             EditRecipeBtn.Visible = false;
         }
@@ -155,7 +146,7 @@ namespace CookBook.UI
         {
             NameTxt.Text = string.Empty;
             DescriptionTxt.Text = string.Empty;
-            RecipePictureBox.Image = _placeholderImage;
+            RecipePictureBox.Image = ImageHelper.PlaceholderImage;
             RefreshRecipeTypes();
             _isUserImageAdded = false;
             AddRecipeBtn.Visible = true;
@@ -261,7 +252,7 @@ namespace CookBook.UI
                 RecipePictureBox.Image = ImageHelper.ConvertFromDbImage(clickedRecipe.Image);
             else
             {
-                RecipePictureBox.Image = _placeholderImage;
+                RecipePictureBox.Image = ImageHelper.PlaceholderImage;
             }
 
             RecipeTypesCbx.SelectedIndex = FindRecipeTypeIndex(clickedRecipe.RecipeTypeId);
@@ -275,21 +266,17 @@ namespace CookBook.UI
 
             //Different ways to write foreach loop
 
-
             //First way:
             //RecipeType matchingRecipetype = null;
             //foreach(RecipeType rt in allRecipeTypes)
             //  if(rt.Id = recipeTypeId)
             //      matchingRecipeType = rt;
 
-
             //2nd way:
             //RecipeType matchingRecipetype = allRecipeTypes.Where(rt => rt.Id == recipeTypeId).SingleOrDefault();
 
-
             //3rd way:
             RecipeType matchingRecipetype = allRecipeTypes.FirstOrDefault(rt => rt.Id == recipeTypeId);
-
 
             int index = RecipeTypesCbx.Items.IndexOf(matchingRecipetype);
 

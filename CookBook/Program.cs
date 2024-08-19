@@ -1,3 +1,4 @@
+using CookBook.Services;
 using CookBook.UI;
 using DataAcceessLayer.Contracts;
 using DataAcceessLayer.Repositories;
@@ -15,33 +16,44 @@ namespace CookBook
         [STAThread]
         static void Main()
         {
+            //Initializes the application configuration settings
             ApplicationConfiguration.Initialize();
-
-            ServiceCollection services = ConfigureServices();
+            
+            //Configures and registers services (Dependencies) for the application
+            ServiceCollection services = ConfigureServices();            
+            
+            //Provides the services with their Dependencies
             ServiceProvider serviceProvider = services.BuildServiceProvider();
 
-            var startForm = serviceProvider.GetRequiredService<RecipesForm>();
+            //Instance of the starting Form of the Application
+            var startForm = serviceProvider.GetRequiredService<FoodManagerForm>();
+            //Runs the application
             Application.Run(startForm);
         }
 
         static ServiceCollection ConfigureServices()
         {
+            //Collection of registered Services
             ServiceCollection services = new ServiceCollection();
-         
+            
+            //Registers Contracts for the Repositories
             services.AddTransient<IIngredientsRepository>(_ => new IngredientsRepository());
             services.AddTransient<IRecipeTypesRepository>(_ => new RecipeTypesRepository());
             services.AddTransient<IRecipesRepository>(_ => new RecipesRepository());
             services.AddTransient<IRecipeIngriendtsRepository>(_ => new RecipeIngredientsRepository());
 
-
+            //Registers Forms for Dependency Injection
             services.AddTransient<IngredientsForm>();
             services.AddTransient<RecipesForm>();
             services.AddTransient<RecipeTypesForm>();
             services.AddTransient<RecipeIngredientsForm>();
+            services.AddTransient<AmountForm>();
+            services.AddTransient<FoodManagerForm>();
+            services.AddTransient<FoodManagerCache>();
 
+            //Returns the configured Services
             return services;
 
         }
-
     }
 }

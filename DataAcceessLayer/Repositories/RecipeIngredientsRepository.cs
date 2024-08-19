@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Dapper;
+using CookBook.Services;
 
 namespace DataAcceessLayer.Repositories
 {
@@ -18,6 +19,7 @@ namespace DataAcceessLayer.Repositories
         private void ErrorOccured(string errorMessage)
         {
             OnError.Invoke(errorMessage);
+            Logger.LogError(errorMessage, DateTime.Now);
         }
         public async Task AddRecipeIngredient(RecipeIngredient recipeIngredient)
         {
@@ -100,5 +102,24 @@ namespace DataAcceessLayer.Repositories
                 return new List<RecipeIngredientWithNameAndAmount>();
             }            
         }
+
+        public async Task<List<RecipeIngredient>> GetAllRecipeIngredients()
+        {
+            try
+            {
+                string query = "select * from RecipeIngredients";
+
+                using (IDbConnection connection = new SqlConnection(ConnectionHelper.ConnectionString))
+                {
+                    return (await connection.QueryAsync<RecipeIngredient>(query)).ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                string errorMessage = "An error happend while getting all recipe ingredients.";
+                ErrorOccured(errorMessage);
+                return new List<RecipeIngredient>();
+            }
+        }        
     }
 }
