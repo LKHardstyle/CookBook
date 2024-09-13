@@ -114,7 +114,41 @@ namespace CookBook.UI
         }
         private void CreateShoppingListBtn_Click(object sender, EventArgs e)
         {
+            if(_foodManagerCache.UnavailableRecipes.Count == 0)
+            {
+                MessageBox.Show("There are no Unavailable Recipes");
+                return;
+            }
+            string shoppingList = "";
 
+            foreach(Recipe recipe in _foodManagerCache.UnavailableRecipes)
+            {
+                shoppingList += $"Missing Ingredients for {recipe.Name} \n";
+
+                var recipeIngredients = _foodManagerCache.GetIngredients(recipe.Id);
+                
+                foreach(var ingredient in recipeIngredients)
+                {
+                    if (ingredient.MissingAmount != 0)
+                        shoppingList += $"{ingredient.Name} {ingredient.MissingAmount}g \n";
+                }
+                shoppingList += "\n";
+            }
+            try
+            {
+                string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+
+                string filePath = Path.Combine(desktopPath, "ShoppingList.txt");
+
+                using (StreamWriter sw = new StreamWriter(filePath))
+                {
+                    sw.Write(shoppingList);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error while creating Shopping List!");
+            }
         }
     }
 }

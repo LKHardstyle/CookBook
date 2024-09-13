@@ -26,7 +26,7 @@ namespace CookBook
             ServiceProvider serviceProvider = services.BuildServiceProvider();
 
             //Instance of the starting Form of the Application
-            var startForm = serviceProvider.GetRequiredService<FoodManagerForm>();
+            var startForm = serviceProvider.GetRequiredService<HomeForm>();
             //Runs the application
             Application.Run(startForm);
         }
@@ -50,6 +50,7 @@ namespace CookBook
             services.AddTransient<AmountForm>();
             services.AddTransient<FoodManagerForm>();
             services.AddTransient<FoodManagerCache>();
+            services.AddTransient<HomeForm>();
 
             //Returns the configured Services
             return services;
