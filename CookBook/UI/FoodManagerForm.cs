@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -19,7 +20,8 @@ namespace CookBook.UI
     public partial class FoodManagerForm : Form
     {
         private readonly IServiceProvider _serviceProvider;
-        private FoodManagerCache _foodManagerCache;       
+        private FoodManagerCache _foodManagerCache;
+        DesktopFileWatcher _desktopFileWatcher;
         public enum RecipeAvailability { Available, Unavailable };
         public FoodManagerForm(IServiceProvider serviceProvider)
         {
@@ -28,10 +30,26 @@ namespace CookBook.UI
             _serviceProvider = serviceProvider;
 
             _foodManagerCache = _serviceProvider.GetRequiredService<FoodManagerCache>();
-            RecipesLbx.OnSelectedItemChanged += OnSelectedRecipeChanged;            
-        }       
+            _desktopFileWatcher = _serviceProvider.GetRequiredService<DesktopFileWatcher>();
+            RecipesLbx.OnSelectedItemChanged += OnSelectedRecipeChanged;
+            _desktopFileWatcher.onFileStatusChange += OnFileStatusChanged;
+
+            NotificationIcon.Visible = DesktopFileWatcher.CurrentFileStatus;
+        }
+
+        private void OnFileStatusChanged(bool fileExists)
+        {
+            if (this.IsHandleCreated)
+            {
+                Invoke(new Action(() =>
+                {
+                    NotificationIcon.Visible = fileExists;
+                }));
+            }            
+        }
+
         private void OnSelectedRecipeChanged(ListBoxItemVM selectedItem)
-        {          
+        {
 
             Recipe selectedRecipe = (Recipe)selectedItem.Item;
 
@@ -62,9 +80,9 @@ namespace CookBook.UI
                 RecipePicture.Image = ImageHelper.PlaceholderImage;
         }
         private void AvailableBtn_Click(object sender, EventArgs e)
-        {           
+        {
             RefreshRecipesLbx(RecipeAvailability.Available);
-        }        
+        }
         private void UnavailableBtn_Click(object sender, EventArgs e)
         {
             RefreshRecipesLbx(RecipeAvailability.Unavailable);
@@ -79,14 +97,14 @@ namespace CookBook.UI
                 recipes = _foodManagerCache.AvailableRecipes;
                 CreateShoppingListBtn.Visible = false;
                 PrepareFoodBtn.Visible = true;
-            }               
+            }
             else if (recipeAvailability == RecipeAvailability.Unavailable)
             {
                 recipes = _foodManagerCache.UnavailableRecipes;
                 CreateShoppingListBtn.Visible = true;
                 PrepareFoodBtn.Visible = false;
             }
-                          
+
             foreach (Recipe r in recipes)
             {
                 datasource.Add(new ListBoxItemVM(r, r.Name));
@@ -99,7 +117,7 @@ namespace CookBook.UI
             RecipePicture.SizeMode = PictureBoxSizeMode.StretchImage;
             await _foodManagerCache.RefreshData();
 
-            RefreshRecipesLbx(RecipeAvailability.Available);            
+            RefreshRecipesLbx(RecipeAvailability.Available);
         }
         private async void PrepareFoodBtn_Click(object sender, EventArgs e)
         {
@@ -111,23 +129,25 @@ namespace CookBook.UI
             await _foodManagerCache.RefreshData();
             RefreshRecipesLbx(RecipeAvailability.Available);
 
+            TotalRecipesCounter.Instance.PreparedRecipesCounter++;
+
         }
         private void CreateShoppingListBtn_Click(object sender, EventArgs e)
         {
-            if(_foodManagerCache.UnavailableRecipes.Count == 0)
+            if (_foodManagerCache.UnavailableRecipes.Count == 0)
             {
                 MessageBox.Show("There are no Unavailable Recipes");
                 return;
             }
             string shoppingList = "";
 
-            foreach(Recipe recipe in _foodManagerCache.UnavailableRecipes)
+            foreach (Recipe recipe in _foodManagerCache.UnavailableRecipes)
             {
                 shoppingList += $"Missing Ingredients for {recipe.Name} \n";
 
                 var recipeIngredients = _foodManagerCache.GetIngredients(recipe.Id);
-                
-                foreach(var ingredient in recipeIngredients)
+
+                foreach (var ingredient in recipeIngredients)
                 {
                     if (ingredient.MissingAmount != 0)
                         shoppingList += $"{ingredient.Name} {ingredient.MissingAmount}g \n";
@@ -149,6 +169,16 @@ namespace CookBook.UI
             {
                 MessageBox.Show("Error while creating Shopping List!");
             }
+        }
+
+        private void NotificationIcon_MouseEnter(object sender, EventArgs e)
+        {
+            notifcationTooltip.Show("You need to shop for ingredients", NotificationIcon, 0, 0);
+        }
+
+        private void NotificationIcon_MouseLeave(object sender, EventArgs e)
+        {
+            notifcationTooltip.Hide(NotificationIcon);
         }
     }
 }

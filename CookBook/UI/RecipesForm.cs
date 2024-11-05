@@ -1,4 +1,5 @@
 ﻿using CookBook.Helpers;
+using CookBook.Services;
 using DataAcceessLayer.Contracts;
 using DataAcceessLayer.CustomQueryResults;
 using DataAcceessLayer.Repositories;
@@ -34,6 +35,8 @@ namespace CookBook.UI
             _serviceProvider = serviceProvider;
             _recipesRepository = recipesRepository;
             _recipesRepository.OnError += (message) => MessageBox.Show(message);
+
+            PreparedRecipesLbx.Text = "Prepared recipes: " + TotalRecipesCounter.Instance.PreparedRecipesCounter.ToString();
         }
 
         private async Task RefreshRecipeTypes()

@@ -31,6 +31,8 @@
             FridgeBtn = new Button();
             RecipesBtn = new Button();
             FoodManagerBtn = new Button();
+            NotificationIcon = new PictureBox();
+            ((System.ComponentModel.ISupportInitialize)NotificationIcon).BeginInit();
             SuspendLayout();
             // 
             // FridgeBtn
@@ -63,11 +65,22 @@
             FoodManagerBtn.UseVisualStyleBackColor = true;
             FoodManagerBtn.Click += FoodManagerBtn_Click;
             // 
+            // NotificationIcon
+            // 
+            NotificationIcon.Image = Properties.Resources.notification;
+            NotificationIcon.Location = new Point(12, 363);
+            NotificationIcon.Name = "NotificationIcon";
+            NotificationIcon.Size = new Size(60, 60);
+            NotificationIcon.SizeMode = PictureBoxSizeMode.StretchImage;
+            NotificationIcon.TabIndex = 9;
+            NotificationIcon.TabStop = false;
+            // 
             // HomeForm
             // 
             AutoScaleDimensions = new SizeF(12F, 30F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(382, 435);
+            Controls.Add(NotificationIcon);
             Controls.Add(FoodManagerBtn);
             Controls.Add(RecipesBtn);
             Controls.Add(FridgeBtn);
@@ -75,6 +88,7 @@
             Margin = new Padding(5, 6, 5, 6);
             Name = "HomeForm";
             Text = "HomeForm";
+            ((System.ComponentModel.ISupportInitialize)NotificationIcon).EndInit();
             ResumeLayout(false);
         }
 
@@ -83,5 +97,6 @@
         private Button FridgeBtn;
         private Button RecipesBtn;
         private Button FoodManagerBtn;
+        private PictureBox NotificationIcon;
     }
 }

@@ -42,7 +42,7 @@ namespace CookBook
             services.AddTransient<IRecipesRepository>(_ => new RecipesRepository());
             services.AddTransient<IRecipeIngriendtsRepository>(_ => new RecipeIngredientsRepository());
 
-            //Registers Forms for Dependency Injection
+            //Registers Forms for Dependency Injection, without Data Sharing(one instance each)
             services.AddTransient<IngredientsForm>();
             services.AddTransient<RecipesForm>();
             services.AddTransient<RecipeTypesForm>();
@@ -51,6 +51,10 @@ namespace CookBook
             services.AddTransient<FoodManagerForm>();
             services.AddTransient<FoodManagerCache>();
             services.AddTransient<HomeForm>();
+            services.AddTransient<SecretForm>();
+
+            //Registers Forms for Dependency Injection, with Data Sharing(one instance over all)
+            services.AddSingleton(DesktopFileWatcher.Instance);
 
             //Returns the configured Services
             return services;
