@@ -42,7 +42,6 @@
             DescriptionTxt = new RichTextBox();
             RecipePictureBox = new PictureBox();
             EditRecipeBtn = new Button();
-            PreparedRecipesLbx = new Label();
             ((System.ComponentModel.ISupportInitialize)RecipesGrid).BeginInit();
             ((System.ComponentModel.ISupportInitialize)RecipePictureBox).BeginInit();
             SuspendLayout();
@@ -174,21 +173,11 @@
             EditRecipeBtn.UseVisualStyleBackColor = true;
             EditRecipeBtn.Click += EditRecipeBtn_Click;
             // 
-            // PreparedRecipesLbx
-            // 
-            PreparedRecipesLbx.AutoSize = true;
-            PreparedRecipesLbx.Location = new Point(29, 7);
-            PreparedRecipesLbx.Name = "PreparedRecipesLbx";
-            PreparedRecipesLbx.Size = new Size(68, 30);
-            PreparedRecipesLbx.TabIndex = 17;
-            PreparedRecipesLbx.Text = "label5";
-            // 
             // RecipesForm
             // 
             AutoScaleDimensions = new SizeF(12F, 30F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1494, 672);
-            Controls.Add(PreparedRecipesLbx);
             Controls.Add(EditRecipeBtn);
             Controls.Add(RecipePictureBox);
             Controls.Add(DescriptionTxt);
@@ -230,6 +219,5 @@
         private RichTextBox DescriptionTxt;
         private PictureBox RecipePictureBox;
         private Button EditRecipeBtn;
-        private Label PreparedRecipesLbx;
     }
 }

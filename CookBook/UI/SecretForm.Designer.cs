@@ -28,18 +28,35 @@
         /// </summary>
         private void InitializeComponent()
         {
+            PreparedRecipesLbl = new Label();
             SuspendLayout();
+            // 
+            // PreparedRecipesLbl
+            // 
+            PreparedRecipesLbl.AutoSize = true;
+            PreparedRecipesLbl.Location = new Point(21, 46);
+            PreparedRecipesLbl.Margin = new Padding(5, 0, 5, 0);
+            PreparedRecipesLbl.Name = "PreparedRecipesLbl";
+            PreparedRecipesLbl.Size = new Size(71, 30);
+            PreparedRecipesLbl.TabIndex = 18;
+            PreparedRecipesLbl.Text = "label5";
             // 
             // SecretForm
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(12F, 30F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(980, 580);
+            ClientSize = new Size(1195, 690);
+            Controls.Add(PreparedRecipesLbl);
+            Font = new Font("Segoe UI", 16F);
+            Margin = new Padding(5, 6, 5, 6);
             Name = "SecretForm";
             Text = "SecretForm";
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
+
+        private Label PreparedRecipesLbl;
     }
 }

@@ -34,9 +34,7 @@ namespace CookBook.UI
             _recipeTypesRepository = recipeTypesRepository;
             _serviceProvider = serviceProvider;
             _recipesRepository = recipesRepository;
-            _recipesRepository.OnError += (message) => MessageBox.Show(message);
-
-            PreparedRecipesLbx.Text = "Prepared recipes: " + TotalRecipesCounter.Instance.PreparedRecipesCounter.ToString();
+            _recipesRepository.OnError += (message) => MessageBox.Show(message);            
         }
 
         private async Task RefreshRecipeTypes()

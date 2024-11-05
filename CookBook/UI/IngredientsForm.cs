@@ -175,9 +175,12 @@ namespace CookBook.UI
 
             NameTxt.Text = clickedIngredient.Name;
             TypeTxt.Text = clickedIngredient.Type;
-            WeightNum.Value = clickedIngredient.Weight;
-            PricePer100gNum.Value = clickedIngredient.PricePer100g;
-            KcalPer100gNum.Value = clickedIngredient.KcalPer100g;
+            if(clickedIngredient.Weight != 0)
+                WeightNum.Value = clickedIngredient.Weight;
+            if (clickedIngredient.PricePer100g != 0)
+                PricePer100gNum.Value = clickedIngredient.PricePer100g;
+            if (clickedIngredient.KcalPer100g != 0)
+                KcalPer100gNum.Value = clickedIngredient.KcalPer100g;
 
             AddToFridgeBtn.Visible = false;
             EditIngredientBtn.Visible = true;

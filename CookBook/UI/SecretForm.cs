@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CookBook.Services;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -15,6 +16,7 @@ namespace CookBook.UI
         public SecretForm()
         {
             InitializeComponent();
+            PreparedRecipesLbl.Text = "Prepared recipes: " + TotalRecipesCounter.Instance.PreparedRecipesCounter.ToString();
         }
     }
 }
