@@ -28,36 +28,39 @@
         /// </summary>
         private void InitializeComponent()
         {
-            label1 = new Label();
-            label2 = new Label();
+            AllIngredientsLbl = new Label();
+            RecipeIngredientsLbl = new Label();
             AddIngredientBtn = new Button();
             RemoveIngredientsBtn = new Button();
             AllIngredientsCustomLbx = new Assets.CustomUserControls.CustomListBox();
             RecipeIngredientsCustomLbx = new Assets.CustomUserControls.CustomListBox();
+            Panel = new Panel();
             SuspendLayout();
             // 
-            // label1
+            // AllIngredientsLbl
             // 
-            label1.AutoSize = true;
-            label1.Location = new Point(92, 24);
-            label1.Margin = new Padding(5, 0, 5, 0);
-            label1.Name = "label1";
-            label1.Size = new Size(147, 30);
-            label1.TabIndex = 0;
-            label1.Text = "All Ingredients";
+            AllIngredientsLbl.AutoSize = true;
+            AllIngredientsLbl.Location = new Point(92, 24);
+            AllIngredientsLbl.Margin = new Padding(5, 0, 5, 0);
+            AllIngredientsLbl.Name = "AllIngredientsLbl";
+            AllIngredientsLbl.Size = new Size(147, 30);
+            AllIngredientsLbl.TabIndex = 0;
+            AllIngredientsLbl.Text = "All Ingredients";
             // 
-            // label2
+            // RecipeIngredientsLbl
             // 
-            label2.AutoSize = true;
-            label2.Location = new Point(435, 24);
-            label2.Margin = new Padding(5, 0, 5, 0);
-            label2.Name = "label2";
-            label2.Size = new Size(184, 30);
-            label2.TabIndex = 1;
-            label2.Text = "Recipe Ingredients";
+            RecipeIngredientsLbl.AutoSize = true;
+            RecipeIngredientsLbl.Location = new Point(435, 24);
+            RecipeIngredientsLbl.Margin = new Padding(5, 0, 5, 0);
+            RecipeIngredientsLbl.Name = "RecipeIngredientsLbl";
+            RecipeIngredientsLbl.Size = new Size(184, 30);
+            RecipeIngredientsLbl.TabIndex = 1;
+            RecipeIngredientsLbl.Text = "Recipe Ingredients";
             // 
             // AddIngredientBtn
             // 
+            AddIngredientBtn.FlatAppearance.BorderSize = 0;
+            AddIngredientBtn.FlatStyle = FlatStyle.Flat;
             AddIngredientBtn.Location = new Point(30, 555);
             AddIngredientBtn.Name = "AddIngredientBtn";
             AddIngredientBtn.Size = new Size(288, 46);
@@ -68,6 +71,8 @@
             // 
             // RemoveIngredientsBtn
             // 
+            RemoveIngredientsBtn.FlatAppearance.BorderSize = 0;
+            RemoveIngredientsBtn.FlatStyle = FlatStyle.Flat;
             RemoveIngredientsBtn.Location = new Point(373, 555);
             RemoveIngredientsBtn.Name = "RemoveIngredientsBtn";
             RemoveIngredientsBtn.Size = new Size(288, 46);
@@ -92,6 +97,14 @@
             RecipeIngredientsCustomLbx.Size = new Size(288, 454);
             RecipeIngredientsCustomLbx.TabIndex = 7;
             // 
+            // Panel
+            // 
+            Panel.BackColor = Color.FromArgb(45, 66, 91);
+            Panel.Location = new Point(2, 1);
+            Panel.Name = "Panel";
+            Panel.Size = new Size(707, 635);
+            Panel.TabIndex = 8;
+            // 
             // RecipeIngredientsForm
             // 
             AutoScaleDimensions = new SizeF(12F, 30F);
@@ -101,8 +114,9 @@
             Controls.Add(AllIngredientsCustomLbx);
             Controls.Add(RemoveIngredientsBtn);
             Controls.Add(AddIngredientBtn);
-            Controls.Add(label2);
-            Controls.Add(label1);
+            Controls.Add(RecipeIngredientsLbl);
+            Controls.Add(AllIngredientsLbl);
+            Controls.Add(Panel);
             Font = new Font("Segoe UI", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             Margin = new Padding(5, 6, 5, 6);
             Name = "RecipeIngredientsForm";
@@ -114,11 +128,12 @@
 
         #endregion
 
-        private Label label1;
-        private Label label2;
+        private Label AllIngredientsLbl;
+        private Label RecipeIngredientsLbl;
         private Button AddIngredientBtn;
         private Button RemoveIngredientsBtn;
         private Assets.CustomUserControls.CustomListBox AllIngredientsCustomLbx;
         private Assets.CustomUserControls.CustomListBox RecipeIngredientsCustomLbx;
+        private Panel Panel;
     }
 }

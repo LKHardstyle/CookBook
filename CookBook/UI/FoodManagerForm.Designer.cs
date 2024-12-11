@@ -42,9 +42,9 @@
             RecipePicture = new PictureBox();
             TotalPriceLbl = new Label();
             TotalCaloriesLbl = new Label();
-            label3 = new Label();
-            label2 = new Label();
-            label1 = new Label();
+            PriceLbl = new Label();
+            CaloriesLbl = new Label();
+            IngredientsLbl = new Label();
             notifcationTooltip = new ToolTip(components);
             LeftPanel.SuspendLayout();
             RightPanel.SuspendLayout();
@@ -67,6 +67,8 @@
             // 
             // PrepareFoodBtn
             // 
+            PrepareFoodBtn.FlatAppearance.BorderSize = 0;
+            PrepareFoodBtn.FlatStyle = FlatStyle.Flat;
             PrepareFoodBtn.Location = new Point(12, 787);
             PrepareFoodBtn.Name = "PrepareFoodBtn";
             PrepareFoodBtn.Size = new Size(417, 53);
@@ -77,6 +79,8 @@
             // 
             // CreateShoppingListBtn
             // 
+            CreateShoppingListBtn.FlatAppearance.BorderSize = 0;
+            CreateShoppingListBtn.FlatStyle = FlatStyle.Flat;
             CreateShoppingListBtn.Location = new Point(12, 787);
             CreateShoppingListBtn.Name = "CreateShoppingListBtn";
             CreateShoppingListBtn.Size = new Size(417, 53);
@@ -95,6 +99,8 @@
             // 
             // UnavailableBtn
             // 
+            UnavailableBtn.FlatAppearance.BorderSize = 0;
+            UnavailableBtn.FlatStyle = FlatStyle.Flat;
             UnavailableBtn.Location = new Point(228, 17);
             UnavailableBtn.Name = "UnavailableBtn";
             UnavailableBtn.Size = new Size(201, 53);
@@ -105,6 +111,8 @@
             // 
             // AvailableBtn
             // 
+            AvailableBtn.FlatAppearance.BorderSize = 0;
+            AvailableBtn.FlatStyle = FlatStyle.Flat;
             AvailableBtn.Location = new Point(12, 17);
             AvailableBtn.Name = "AvailableBtn";
             AvailableBtn.Size = new Size(201, 53);
@@ -121,9 +129,9 @@
             RightPanel.Controls.Add(RecipePicture);
             RightPanel.Controls.Add(TotalPriceLbl);
             RightPanel.Controls.Add(TotalCaloriesLbl);
-            RightPanel.Controls.Add(label3);
-            RightPanel.Controls.Add(label2);
-            RightPanel.Controls.Add(label1);
+            RightPanel.Controls.Add(PriceLbl);
+            RightPanel.Controls.Add(CaloriesLbl);
+            RightPanel.Controls.Add(IngredientsLbl);
             RightPanel.Dock = DockStyle.Fill;
             RightPanel.Location = new Point(435, 0);
             RightPanel.Name = "RightPanel";
@@ -184,32 +192,32 @@
             TotalCaloriesLbl.TabIndex = 3;
             TotalCaloriesLbl.Text = "/";
             // 
-            // label3
+            // PriceLbl
             // 
-            label3.AutoSize = true;
-            label3.Location = new Point(527, 98);
-            label3.Name = "label3";
-            label3.Size = new Size(113, 30);
-            label3.TabIndex = 2;
-            label3.Text = "Total price:";
+            PriceLbl.AutoSize = true;
+            PriceLbl.Location = new Point(527, 98);
+            PriceLbl.Name = "PriceLbl";
+            PriceLbl.Size = new Size(113, 30);
+            PriceLbl.TabIndex = 2;
+            PriceLbl.Text = "Total price:";
             // 
-            // label2
+            // CaloriesLbl
             // 
-            label2.AutoSize = true;
-            label2.Location = new Point(527, 40);
-            label2.Name = "label2";
-            label2.Size = new Size(138, 30);
-            label2.TabIndex = 1;
-            label2.Text = "Total calories:";
+            CaloriesLbl.AutoSize = true;
+            CaloriesLbl.Location = new Point(527, 40);
+            CaloriesLbl.Name = "CaloriesLbl";
+            CaloriesLbl.Size = new Size(138, 30);
+            CaloriesLbl.TabIndex = 1;
+            CaloriesLbl.Text = "Total calories:";
             // 
-            // label1
+            // IngredientsLbl
             // 
-            label1.AutoSize = true;
-            label1.Location = new Point(17, 40);
-            label1.Name = "label1";
-            label1.Size = new Size(117, 30);
-            label1.TabIndex = 0;
-            label1.Text = "Ingredients";
+            IngredientsLbl.AutoSize = true;
+            IngredientsLbl.Location = new Point(17, 40);
+            IngredientsLbl.Name = "IngredientsLbl";
+            IngredientsLbl.Size = new Size(117, 30);
+            IngredientsLbl.TabIndex = 0;
+            IngredientsLbl.Text = "Ingredients";
             // 
             // FoodManagerForm
             // 
@@ -244,9 +252,9 @@
         private PictureBox RecipePicture;
         private Label TotalPriceLbl;
         private Label TotalCaloriesLbl;
-        private Label label3;
-        private Label label2;
-        private Label label1;
+        private Label PriceLbl;
+        private Label CaloriesLbl;
+        private Label IngredientsLbl;
         private Assets.CustomUserControls.CustomListBox IngredientsLbx;
         private PictureBox NotificationIcon;
         private ToolTip notifcationTooltip;

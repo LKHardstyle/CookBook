@@ -4,6 +4,7 @@ using CookBook.ViewModels;
 using DataAcceessLayer.Contracts;
 using DomainModel.Models;
 using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -22,6 +23,7 @@ namespace CookBook.UI
         private readonly IServiceProvider _serviceProvider;
         private FoodManagerCache _foodManagerCache;
         DesktopFileWatcher _desktopFileWatcher;
+        private bool _isUserImageAdded = false;
         public enum RecipeAvailability { Available, Unavailable };
         public FoodManagerForm(IServiceProvider serviceProvider)
         {
@@ -35,8 +37,9 @@ namespace CookBook.UI
             _desktopFileWatcher.onFileStatusChange += OnFileStatusChanged;
 
             NotificationIcon.Visible = DesktopFileWatcher.CurrentFileStatus;
-        }
 
+            ApplyStyles();
+        }
         private void OnFileStatusChanged(bool fileExists)
         {
             if (this.IsHandleCreated)
@@ -45,9 +48,8 @@ namespace CookBook.UI
                 {
                     NotificationIcon.Visible = fileExists;
                 }));
-            }            
+            }
         }
-
         private void OnSelectedRecipeChanged(ListBoxItemVM selectedItem)
         {
 
@@ -170,15 +172,47 @@ namespace CookBook.UI
                 MessageBox.Show("Error while creating Shopping List!");
             }
         }
-
         private void NotificationIcon_MouseEnter(object sender, EventArgs e)
         {
             notifcationTooltip.Show("You need to shop for ingredients", NotificationIcon, 0, 0);
         }
-
         private void NotificationIcon_MouseLeave(object sender, EventArgs e)
         {
             notifcationTooltip.Hide(NotificationIcon);
         }
+        private void ApplyStyles()
+        {
+            JObject themeConfig = ConfigurationManager.LoadThemeConfig();
+
+            string primaryBgr = (string)themeConfig["primaryBgr"];
+            string secondaryBgr = (string)themeConfig["secondaryBgr"];
+            string primaryFgr = (string)themeConfig["primaryFgr"];
+
+
+            LeftPanel.BackColor = ColorTranslator.FromHtml(primaryBgr);
+            RightPanel.BackColor = ColorTranslator.FromHtml(secondaryBgr);
+
+            IngredientsLbl.BackColor = ColorTranslator.FromHtml(secondaryBgr);
+            TotalCaloriesLbl.BackColor = ColorTranslator.FromHtml(secondaryBgr);
+            TotalPriceLbl.BackColor = ColorTranslator.FromHtml(secondaryBgr);
+            CaloriesLbl.BackColor = ColorTranslator.FromHtml(secondaryBgr);
+            PriceLbl.BackColor = ColorTranslator.FromHtml(secondaryBgr);
+
+            IngredientsLbl.ForeColor = ColorTranslator.FromHtml(primaryFgr);
+            TotalCaloriesLbl.ForeColor = ColorTranslator.FromHtml(primaryFgr);
+            TotalPriceLbl.ForeColor = ColorTranslator.FromHtml(primaryFgr);
+            CaloriesLbl.ForeColor = ColorTranslator.FromHtml(primaryFgr);
+            PriceLbl.ForeColor = ColorTranslator.FromHtml(primaryFgr);
+
+            AvailableBtn.BackColor = ColorTranslator.FromHtml((string)themeConfig["primaryBtnBgr"]);
+            UnavailableBtn.BackColor = ColorTranslator.FromHtml((string)themeConfig["secondaryBtnBgr"]);
+            PrepareFoodBtn.BackColor = ColorTranslator.FromHtml((string)themeConfig["primaryBtnBgr"]);
+            CreateShoppingListBtn.BackColor = ColorTranslator.FromHtml((string)themeConfig["primaryBtnBgr"]);
+
+            AvailableBtn.ForeColor = ColorTranslator.FromHtml((string)themeConfig["primaryBtnFgr"]);
+            UnavailableBtn.ForeColor = ColorTranslator.FromHtml((string)themeConfig["primaryBtnFgr"]);
+            PrepareFoodBtn.ForeColor = ColorTranslator.FromHtml((string)themeConfig["primaryBtnFgr"]);
+            CreateShoppingListBtn.ForeColor = ColorTranslator.FromHtml((string)themeConfig["primaryBtnFgr"]);
+        }        
     }
 }

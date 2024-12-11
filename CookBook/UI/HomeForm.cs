@@ -1,5 +1,6 @@
 ﻿using CookBook.Services;
 using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -25,7 +26,7 @@ namespace CookBook.UI
             _desktopFileWatcher.onFileStatusChange += OnFileStatusChanged;
 
             NotificationIcon.Visible = DesktopFileWatcher.CurrentFileStatus;
-           
+            StyleForm();
         }
         private void OnFileStatusChanged(bool fileExists)
         {
@@ -52,7 +53,7 @@ namespace CookBook.UI
             //FoodManagerForm form = _serviceProvider.GetRequiredService<FoodManagerForm>();
             ShowForm(_serviceProvider.GetRequiredService<FoodManagerForm>());
         }
-        
+
         private void ShowForm(Form form)
         {
             form.StartPosition = FormStartPosition.CenterScreen;
@@ -60,6 +61,7 @@ namespace CookBook.UI
             form.MinimizeBox = false;
             form.FormBorderStyle = FormBorderStyle.FixedSingle;
             form.ShowDialog();
+
         }
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
@@ -71,8 +73,31 @@ namespace CookBook.UI
 
                 return true;
             }
-            
+
             return base.ProcessCmdKey(ref msg, keyData);
+        }
+
+        private void StyleForm()
+        {
+            JObject themeConfig = ConfigurationManager.LoadThemeConfig();
+
+            this.MinimizeBox = false;
+            this.MaximizeBox = false;
+            this.StartPosition = FormStartPosition.CenterScreen;
+            this.FormBorderStyle = FormBorderStyle.FixedSingle;
+            this.Size = new System.Drawing.Size(360, 370);
+            this.Text = "Home";
+            this.BackColor = ColorTranslator.FromHtml((string)themeConfig["secondaryBgr"]);
+        }
+
+        private void NotificationIcon_MouseEnter(object sender, EventArgs e)
+        {
+            notifcationTooltip.Show("You need to shop for ingredients", NotificationIcon, 0, 0);
+        }
+
+        private void NotificationIcon_MouseLeave(object sender, EventArgs e)
+        {
+            notifcationTooltip.Hide(NotificationIcon);
         }
     }
 }

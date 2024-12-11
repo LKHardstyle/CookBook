@@ -5,6 +5,7 @@ using DataAcceessLayer.CustomQueryResults;
 using DataAcceessLayer.Repositories;
 using DomainModel.Models;
 using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -34,9 +35,10 @@ namespace CookBook.UI
             _recipeTypesRepository = recipeTypesRepository;
             _serviceProvider = serviceProvider;
             _recipesRepository = recipesRepository;
-            _recipesRepository.OnError += (message) => MessageBox.Show(message);            
+            _recipesRepository.OnError += (message) => MessageBox.Show(message);  
+            
+            ApplyStyles();
         }
-
         private async Task RefreshRecipeTypes()
         {
             RecipeType previouslySelectedFilter = (RecipeType)RecipeFilterCbx.SelectedItem;
@@ -68,13 +70,11 @@ namespace CookBook.UI
                 RecipeTypesCbx.SelectedIndex = indexToSelect;
             }
         }
-
         private async void RefreshRecipesCache()
         {
             _recipesCache = await _recipesRepository.GetRecipe();
             FilterGridData();
         }
-
         private void FilterGridData()
         {
             RecipeType selectedType = (RecipeType)RecipeFilterCbx.SelectedItem;
@@ -86,7 +86,6 @@ namespace CookBook.UI
                 RecipesGrid.DataSource = _recipesCache.Where(r => r.RecipeTypeId == selectedType.Id).ToList();
             }
         }
-
         private async void RecipesForm_Load(object sender, EventArgs e)
         {
             await RefreshRecipeTypes();
@@ -96,7 +95,6 @@ namespace CookBook.UI
             RecipePictureBox.SizeMode = PictureBoxSizeMode.StretchImage;
             EditRecipeBtn.Visible = false;
         }
-
         private void CustomizeGridAppearance()
         {
             RecipesGrid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
@@ -135,14 +133,12 @@ namespace CookBook.UI
             RecipesGrid.Columns.Clear();
             RecipesGrid.Columns.AddRange(columns);
         }
-
         private void AddRecipeTypeBtn_Click(object sender, EventArgs e)
         {
             RecipeTypesForm Form = _serviceProvider.GetRequiredService<RecipeTypesForm>();
             Form.FormClosed += (sender, e) => RefreshRecipeTypes();
             Form.ShowDialog();
         }
-
         public void ClearAllFields()
         {
             NameTxt.Text = string.Empty;
@@ -153,7 +149,6 @@ namespace CookBook.UI
             AddRecipeBtn.Visible = true;
             EditRecipeBtn.Visible = false;
         }
-
         public bool IsValid()
         {
             bool isValid = true;
@@ -177,7 +172,6 @@ namespace CookBook.UI
 
             return isValid;
         }
-
         private async void AddRecipeBtn_Click(object sender, EventArgs e)
         {
             if (!IsValid())
@@ -195,7 +189,6 @@ namespace CookBook.UI
             ClearAllFields();
             RefreshRecipesCache();
         }
-
         private void RecipePictureBox_Click(object sender, EventArgs e)
         {
             using (OpenFileDialog openFileDialog = new OpenFileDialog()
@@ -212,12 +205,10 @@ namespace CookBook.UI
                 }
             }
         }
-
         private void ClearAllFieldsBtn_Click(object sender, EventArgs e)
         {
             ClearAllFields();
         }
-
         private async void RecipesGrid_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex >= 0 && RecipesGrid.CurrentCell is DataGridViewButtonCell)
@@ -241,7 +232,6 @@ namespace CookBook.UI
                 }
             }
         }
-
         private void FillFormEdit(RecipeWithType clickedRecipe)
         {
             _RecipeToEditId = clickedRecipe.Id;
@@ -260,7 +250,6 @@ namespace CookBook.UI
             AddRecipeBtn.Visible = false;
             EditRecipeBtn.Visible = true;
         }
-
         private int FindRecipeTypeIndex(int recipeTypeId)
         {
             List<RecipeType> allRecipeTypes = (List<RecipeType>)RecipeTypesCbx.DataSource;
@@ -283,7 +272,6 @@ namespace CookBook.UI
 
             return index;
         }
-
         private async void EditRecipeBtn_Click(object sender, EventArgs e)
         {
             if (!IsValid())
@@ -302,10 +290,41 @@ namespace CookBook.UI
             RefreshRecipesCache();
             _RecipeToEditId = 0;
         }
-
         private void RecipeFilterCbx_SelectedIndexChanged(object sender, EventArgs e)
         {
             FilterGridData();
         }        
+        private void ApplyStyles()
+        {
+            JObject themeConfig = ConfigurationManager.LoadThemeConfig();
+
+            string primaryBgr = (string)themeConfig["primaryBgr"];
+            string secondaryBgr = (string)themeConfig["secondaryBgr"];
+            string primaryFgr = (string)themeConfig["primaryFgr"];
+            
+
+            LeftPanel.BackColor = ColorTranslator.FromHtml(primaryBgr);
+            RightPanel.BackColor = ColorTranslator.FromHtml(secondaryBgr);
+
+            NameLbl.BackColor = ColorTranslator.FromHtml(secondaryBgr);
+            TypeLbl.BackColor = ColorTranslator.FromHtml(secondaryBgr);
+            DescriptionLbl.BackColor = ColorTranslator.FromHtml(secondaryBgr);
+            ImageLbl.BackColor = ColorTranslator.FromHtml(secondaryBgr);
+
+            NameLbl.ForeColor = ColorTranslator.FromHtml(primaryFgr);
+            TypeLbl.ForeColor = ColorTranslator.FromHtml(primaryFgr);
+            DescriptionLbl.ForeColor = ColorTranslator.FromHtml(primaryFgr);
+            ImageLbl.ForeColor = ColorTranslator.FromHtml(primaryFgr);
+
+            EditRecipeBtn.BackColor = ColorTranslator.FromHtml((string)themeConfig["primaryBtnBgr"]);
+            AddRecipeBtn.BackColor = ColorTranslator.FromHtml((string)themeConfig["primaryBtnBgr"]);
+            ClearAllFieldsBtn.BackColor = ColorTranslator.FromHtml((string)themeConfig["secondaryBtnBgr"]);
+            AddRecipeTypeBtn.BackColor = ColorTranslator.FromHtml((string)themeConfig["primaryBtnBgr"]);
+
+            EditRecipeBtn.ForeColor = ColorTranslator.FromHtml((string)themeConfig["primaryBtnFgr"]);
+            AddRecipeBtn.ForeColor = ColorTranslator.FromHtml((string)themeConfig["secondaryBtnFgr"]);
+            ClearAllFieldsBtn.ForeColor = ColorTranslator.FromHtml((string)themeConfig["tertiaryBtnFgr"]);
+            AddRecipeTypeBtn.ForeColor = ColorTranslator.FromHtml((string)themeConfig["primaryBtnFgr"]);
+        }
     }
 }

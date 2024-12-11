@@ -3,6 +3,7 @@ using DataAcceessLayer.Contracts;
 using DataAcceessLayer.CustomQueryResults;
 using DataAcceessLayer.Repositories;
 using DomainModel.Models;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -26,6 +27,8 @@ namespace CookBook.UI
             InitializeComponent();
             _recipeIngredientsRepository = recipeIngriendtsRepository;
             _ingredientsRepository = ingredientsRepository;
+
+            ApplyStyles();
         }
 
         private void RecipeIngredientsForm_Load(object sender, EventArgs e)
@@ -110,6 +113,23 @@ namespace CookBook.UI
 
                 RefreshRecipeIngredients();
             }
+        }
+
+        private void ApplyStyles()
+        {
+            JObject themeConfig = ConfigurationManager.LoadThemeConfig();
+
+            Panel.BackColor = ColorTranslator.FromHtml((string)themeConfig["secondaryBgr"]);
+
+            AllIngredientsLbl.BackColor = ColorTranslator.FromHtml((string)themeConfig["secondaryBgr"]);
+            RecipeIngredientsLbl.BackColor = ColorTranslator.FromHtml((string)themeConfig["secondaryBgr"]);
+            AllIngredientsLbl.ForeColor = ColorTranslator.FromHtml((string)themeConfig["primaryFgr"]);
+            RecipeIngredientsLbl.ForeColor = ColorTranslator.FromHtml((string)themeConfig["primaryFgr"]);
+
+            AddIngredientBtn.BackColor = ColorTranslator.FromHtml((string)themeConfig["primaryBtnBgr"]);
+            RemoveIngredientsBtn.BackColor = ColorTranslator.FromHtml((string)themeConfig["secondaryBtnBgr"]);
+            AddIngredientBtn.ForeColor = ColorTranslator.FromHtml((string)themeConfig["primaryBtnFgr"]);
+            RemoveIngredientsBtn.ForeColor = ColorTranslator.FromHtml((string)themeConfig["primaryBtnFgr"]);
         }
     }
 }

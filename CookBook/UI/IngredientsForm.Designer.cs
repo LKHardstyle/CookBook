@@ -28,11 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
-            label1 = new Label();
-            label2 = new Label();
-            label3 = new Label();
-            label4 = new Label();
-            label5 = new Label();
+            NameLbl = new Label();
+            TypeLbl = new Label();
+            WeightLbl = new Label();
+            KcalLbl = new Label();
+            PriceLbl = new Label();
             PricePer100gNum = new NumericUpDown();
             WeightNum = new NumericUpDown();
             KcalPer100gNum = new NumericUpDown();
@@ -43,56 +43,58 @@
             SearchTxt = new TextBox();
             ClearFieldsBtn = new Button();
             EditIngredientBtn = new Button();
+            RightPanel = new Panel();
+            LeftPanel = new Panel();
             ((System.ComponentModel.ISupportInitialize)PricePer100gNum).BeginInit();
             ((System.ComponentModel.ISupportInitialize)WeightNum).BeginInit();
             ((System.ComponentModel.ISupportInitialize)KcalPer100gNum).BeginInit();
             ((System.ComponentModel.ISupportInitialize)IngredientsGrid).BeginInit();
             SuspendLayout();
             // 
-            // label1
+            // NameLbl
             // 
-            label1.AutoSize = true;
-            label1.Location = new Point(720, 89);
-            label1.Name = "label1";
-            label1.Size = new Size(52, 21);
-            label1.TabIndex = 0;
-            label1.Text = "Name";
+            NameLbl.AutoSize = true;
+            NameLbl.Location = new Point(720, 89);
+            NameLbl.Name = "NameLbl";
+            NameLbl.Size = new Size(52, 21);
+            NameLbl.TabIndex = 0;
+            NameLbl.Text = "Name";
             // 
-            // label2
+            // TypeLbl
             // 
-            label2.AutoSize = true;
-            label2.Location = new Point(720, 150);
-            label2.Name = "label2";
-            label2.Size = new Size(42, 21);
-            label2.TabIndex = 1;
-            label2.Text = "Type";
+            TypeLbl.AutoSize = true;
+            TypeLbl.Location = new Point(720, 150);
+            TypeLbl.Name = "TypeLbl";
+            TypeLbl.Size = new Size(42, 21);
+            TypeLbl.TabIndex = 1;
+            TypeLbl.Text = "Type";
             // 
-            // label3
+            // WeightLbl
             // 
-            label3.AutoSize = true;
-            label3.Location = new Point(720, 209);
-            label3.Name = "label3";
-            label3.Size = new Size(82, 21);
-            label3.TabIndex = 2;
-            label3.Text = "Weight (g)";
+            WeightLbl.AutoSize = true;
+            WeightLbl.Location = new Point(720, 209);
+            WeightLbl.Name = "WeightLbl";
+            WeightLbl.Size = new Size(82, 21);
+            WeightLbl.TabIndex = 2;
+            WeightLbl.Text = "Weight (g)";
             // 
-            // label4
+            // KcalLbl
             // 
-            label4.AutoSize = true;
-            label4.Location = new Point(720, 265);
-            label4.Name = "label4";
-            label4.Size = new Size(88, 21);
-            label4.TabIndex = 3;
-            label4.Text = "Kcal (100g)";
+            KcalLbl.AutoSize = true;
+            KcalLbl.Location = new Point(720, 265);
+            KcalLbl.Name = "KcalLbl";
+            KcalLbl.Size = new Size(88, 21);
+            KcalLbl.TabIndex = 3;
+            KcalLbl.Text = "Kcal (100g)";
             // 
-            // label5
+            // PriceLbl
             // 
-            label5.AutoSize = true;
-            label5.Location = new Point(720, 317);
-            label5.Name = "label5";
-            label5.Size = new Size(94, 21);
-            label5.TabIndex = 4;
-            label5.Text = "Price (100g)";
+            PriceLbl.AutoSize = true;
+            PriceLbl.Location = new Point(720, 317);
+            PriceLbl.Name = "PriceLbl";
+            PriceLbl.Size = new Size(94, 21);
+            PriceLbl.TabIndex = 4;
+            PriceLbl.Text = "Price (100g)";
             // 
             // PricePer100gNum
             // 
@@ -140,6 +142,8 @@
             // 
             // AddToFridgeBtn
             // 
+            AddToFridgeBtn.FlatAppearance.BorderSize = 0;
+            AddToFridgeBtn.FlatStyle = FlatStyle.Flat;
             AddToFridgeBtn.Location = new Point(720, 403);
             AddToFridgeBtn.Name = "AddToFridgeBtn";
             AddToFridgeBtn.Size = new Size(403, 39);
@@ -168,6 +172,8 @@
             // 
             // ClearFieldsBtn
             // 
+            ClearFieldsBtn.FlatAppearance.BorderSize = 0;
+            ClearFieldsBtn.FlatStyle = FlatStyle.Flat;
             ClearFieldsBtn.Location = new Point(720, 448);
             ClearFieldsBtn.Name = "ClearFieldsBtn";
             ClearFieldsBtn.Size = new Size(403, 39);
@@ -178,6 +184,8 @@
             // 
             // EditIngredientBtn
             // 
+            EditIngredientBtn.FlatAppearance.BorderSize = 0;
+            EditIngredientBtn.FlatStyle = FlatStyle.Flat;
             EditIngredientBtn.Location = new Point(720, 403);
             EditIngredientBtn.Name = "EditIngredientBtn";
             EditIngredientBtn.Size = new Size(403, 39);
@@ -186,6 +194,20 @@
             EditIngredientBtn.UseVisualStyleBackColor = true;
             EditIngredientBtn.Visible = false;
             EditIngredientBtn.Click += EditIngredientBtn_Click;
+            // 
+            // RightPanel
+            // 
+            RightPanel.Location = new Point(675, 0);
+            RightPanel.Name = "RightPanel";
+            RightPanel.Size = new Size(497, 527);
+            RightPanel.TabIndex = 0;
+            // 
+            // LeftPanel
+            // 
+            LeftPanel.Location = new Point(-2, 0);
+            LeftPanel.Name = "LeftPanel";
+            LeftPanel.Size = new Size(678, 527);
+            LeftPanel.TabIndex = 0;
             // 
             // IngredientsForm
             // 
@@ -202,11 +224,13 @@
             Controls.Add(KcalPer100gNum);
             Controls.Add(WeightNum);
             Controls.Add(PricePer100gNum);
-            Controls.Add(label5);
-            Controls.Add(label4);
-            Controls.Add(label3);
-            Controls.Add(label2);
-            Controls.Add(label1);
+            Controls.Add(PriceLbl);
+            Controls.Add(KcalLbl);
+            Controls.Add(WeightLbl);
+            Controls.Add(TypeLbl);
+            Controls.Add(NameLbl);
+            Controls.Add(LeftPanel);
+            Controls.Add(RightPanel);
             Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             Margin = new Padding(4);
             Name = "IngredientsForm";
@@ -222,11 +246,11 @@
 
         #endregion
 
-        private Label label1;
-        private Label label2;
-        private Label label3;
-        private Label label4;
-        private Label label5;
+        private Label NameLbl;
+        private Label TypeLbl;
+        private Label WeightLbl;
+        private Label KcalLbl;
+        private Label PriceLbl;
         private NumericUpDown PricePer100gNum;
         private NumericUpDown WeightNum;
         private NumericUpDown KcalPer100gNum;
@@ -237,5 +261,7 @@
         private TextBox SearchTxt;
         private Button ClearFieldsBtn;
         private Button EditIngredientBtn;
+        private Panel RightPanel;
+        private Panel LeftPanel;
     }
 }

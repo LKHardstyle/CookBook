@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using DomainModel.Models;
 using DataAcceessLayer.Repositories;
 using DataAcceessLayer.Contracts;
+using Newtonsoft.Json.Linq;
 
 namespace CookBook.UI
 {
@@ -22,8 +23,9 @@ namespace CookBook.UI
             InitializeComponent();
             _ingredientsRepository = ingredientsRepository;
             _ingredientsRepository.OnError += (message) => MessageBox.Show(message);
+            
+            ApplyStyles();
         }        
-
         private async void AddToFridgeBtn_Click(object sender, EventArgs e)
         {
             if (!IsValid())
@@ -36,7 +38,6 @@ namespace CookBook.UI
             ClearAllFields();
             RefreshGridData();
         }
-
         private void ClearAllFields()
         {
             NameTxt.Text = default;
@@ -48,7 +49,6 @@ namespace CookBook.UI
             EditIngredientBtn.Visible = false;
             _IngredientToEditId = 0;
         }
-
         private void IngredientsForm_Load(object sender, EventArgs e)
         {
             RefreshGridData();
@@ -57,12 +57,10 @@ namespace CookBook.UI
             AddToFridgeBtn.Visible = true;
             EditIngredientBtn.Visible = false;
         }
-
         private async void RefreshGridData()
         {
             IngredientsGrid.DataSource = await _ingredientsRepository.GetIngredients(SearchTxt.Text);
         }
-
         private void CustomizeGridAppearance()
         {
             IngredientsGrid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
@@ -97,7 +95,6 @@ namespace CookBook.UI
         {
             ClearAllFields();
         }
-
         private async void SearchTxt_TextChanged(object sender, EventArgs e)
         {
             int lengthBeforePause = SearchTxt.Text.Length;
@@ -108,7 +105,6 @@ namespace CookBook.UI
             if (lengthBeforePause == lengthAfterPause)
                 RefreshGridData();
         }
-
         private bool IsValid()
         {
             bool isValid = true;
@@ -147,7 +143,6 @@ namespace CookBook.UI
 
             return isValid;
         }
-
         private async void IngredientsGrid_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex >= 0 && IngredientsGrid.CurrentCell is DataGridViewButtonCell)
@@ -168,7 +163,6 @@ namespace CookBook.UI
                 }
             }          
         }
-
         private void FillFormForEdit(Ingredient clickedIngredient)
         {
             _IngredientToEditId = clickedIngredient.Id;
@@ -185,7 +179,6 @@ namespace CookBook.UI
             AddToFridgeBtn.Visible = false;
             EditIngredientBtn.Visible = true;
         }
-
         private async void EditIngredientBtn_Click(object sender, EventArgs e)
         {
             if (!IsValid())
@@ -200,6 +193,38 @@ namespace CookBook.UI
             AddToFridgeBtn.Visible = true;
             EditIngredientBtn.Visible = false;
             _IngredientToEditId = 0;
+        }
+        private void ApplyStyles()
+        {
+            JObject themeConfig = ConfigurationManager.LoadThemeConfig();
+
+            string primaryBgr = (string)themeConfig["primaryBgr"];
+            string secondaryBgr = (string)themeConfig["secondaryBgr"];
+            string primaryFgr = (string)themeConfig["primaryFgr"];
+
+
+            LeftPanel.BackColor = ColorTranslator.FromHtml(primaryBgr);
+            RightPanel.BackColor = ColorTranslator.FromHtml(secondaryBgr);
+            
+            NameLbl.BackColor = ColorTranslator.FromHtml(secondaryBgr);
+            TypeLbl.BackColor = ColorTranslator.FromHtml(secondaryBgr);
+            WeightLbl.BackColor = ColorTranslator.FromHtml(secondaryBgr);
+            KcalLbl.BackColor = ColorTranslator.FromHtml(secondaryBgr);
+            PriceLbl.BackColor = ColorTranslator.FromHtml(secondaryBgr);
+
+            NameLbl.ForeColor = ColorTranslator.FromHtml(primaryFgr);
+            TypeLbl.ForeColor = ColorTranslator.FromHtml(primaryFgr);
+            WeightLbl.ForeColor = ColorTranslator.FromHtml(primaryFgr);
+            KcalLbl.ForeColor = ColorTranslator.FromHtml(primaryFgr);
+            PriceLbl.ForeColor = ColorTranslator.FromHtml(primaryFgr); ;
+
+            EditIngredientBtn.BackColor = ColorTranslator.FromHtml((string)themeConfig["primaryBtnBgr"]);            
+            AddToFridgeBtn.BackColor = ColorTranslator.FromHtml((string)themeConfig["primaryBtnBgr"]);
+            ClearFieldsBtn.BackColor = ColorTranslator.FromHtml((string)themeConfig["secondaryBtnBgr"]);
+
+            EditIngredientBtn.ForeColor = ColorTranslator.FromHtml((string)themeConfig["primaryBtnFgr"]);
+            AddToFridgeBtn.ForeColor = ColorTranslator.FromHtml((string)themeConfig["secondaryBtnFgr"]);
+            ClearFieldsBtn.ForeColor = ColorTranslator.FromHtml((string)themeConfig["tertiaryBtnFgr"]);           
         }
     }
 }

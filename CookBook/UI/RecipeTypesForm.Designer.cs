@@ -29,9 +29,10 @@
         private void InitializeComponent()
         {
             NewTypeTxt = new TextBox();
-            label1 = new Label();
+            TypeLbl = new Label();
             AddRecipeTypeBtn = new Button();
             RecipeTypesCustomLbx = new Assets.CustomUserControls.CustomListBox();
+            Panel = new Panel();
             SuspendLayout();
             // 
             // NewTypeTxt
@@ -41,17 +42,19 @@
             NewTypeTxt.Size = new Size(321, 35);
             NewTypeTxt.TabIndex = 0;
             // 
-            // label1
+            // TypeLbl
             // 
-            label1.AutoSize = true;
-            label1.Location = new Point(12, 26);
-            label1.Name = "label1";
-            label1.Size = new Size(61, 30);
-            label1.TabIndex = 2;
-            label1.Text = "Type:";
+            TypeLbl.AutoSize = true;
+            TypeLbl.Location = new Point(12, 26);
+            TypeLbl.Name = "TypeLbl";
+            TypeLbl.Size = new Size(61, 30);
+            TypeLbl.TabIndex = 2;
+            TypeLbl.Text = "Type:";
             // 
             // AddRecipeTypeBtn
             // 
+            AddRecipeTypeBtn.FlatAppearance.BorderSize = 0;
+            AddRecipeTypeBtn.FlatStyle = FlatStyle.Flat;
             AddRecipeTypeBtn.Location = new Point(12, 509);
             AddRecipeTypeBtn.Name = "AddRecipeTypeBtn";
             AddRecipeTypeBtn.Size = new Size(388, 41);
@@ -68,6 +71,13 @@
             RecipeTypesCustomLbx.Size = new Size(388, 407);
             RecipeTypesCustomLbx.TabIndex = 4;
             // 
+            // Panel
+            // 
+            Panel.Location = new Point(-2, 0);
+            Panel.Name = "Panel";
+            Panel.Size = new Size(431, 591);
+            Panel.TabIndex = 5;
+            // 
             // RecipeTypesForm
             // 
             AutoScaleDimensions = new SizeF(12F, 30F);
@@ -75,8 +85,9 @@
             ClientSize = new Size(427, 589);
             Controls.Add(RecipeTypesCustomLbx);
             Controls.Add(AddRecipeTypeBtn);
-            Controls.Add(label1);
+            Controls.Add(TypeLbl);
             Controls.Add(NewTypeTxt);
+            Controls.Add(Panel);
             Font = new Font("Segoe UI", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             Margin = new Padding(5, 6, 5, 6);
             Name = "RecipeTypesForm";
@@ -89,8 +100,9 @@
         #endregion
 
         private TextBox NewTypeTxt;
-        private Label label1;
+        private Label TypeLbl;
         private Button AddRecipeTypeBtn;
         private Assets.CustomUserControls.CustomListBox RecipeTypesCustomLbx;
+        private Panel Panel;
     }
 }
