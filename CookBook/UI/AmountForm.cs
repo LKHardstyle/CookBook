@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using CookBook.Services;
+using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -13,13 +15,27 @@ namespace CookBook.UI
 {
     public partial class AmountForm : Form
     {
+        private readonly IServiceProvider _serviceProvider;
+        StyleWatcher _styleWatcher;
         public decimal Amount { get; set; }
-        public AmountForm()
-        {            
+        public AmountForm(IServiceProvider serviceProvider)
+        {
             InitializeComponent();
+            _serviceProvider = serviceProvider;
+
             AmountNum.Value = 0;
 
-            ApplyStyles();
+            _styleWatcher = _serviceProvider.GetRequiredService<StyleWatcher>();
+            _styleWatcher.onStyleChanged += OnStyleChanged;
+
+            ApplyStyles(StyleWatcher.CurrentStyle);
+        }
+        private void OnStyleChanged(int style)
+        {
+            Invoke(new Action(() =>
+            {
+                ApplyStyles(style);
+            }));
         }
 
         private void OkBtn_Click(object sender, EventArgs e)
@@ -34,9 +50,9 @@ namespace CookBook.UI
             Close();
         }
 
-        private void ApplyStyles()
+        private void ApplyStyles(int? theme = 1)
         {
-            JObject themeConfig = ConfigurationManager.LoadThemeConfig();
+            JObject themeConfig = ConfigurationManager.LoadThemeConfig(theme);
 
             Panel.BackColor = ColorTranslator.FromHtml((string)themeConfig["secondaryBgr"]);
 
@@ -45,9 +61,14 @@ namespace CookBook.UI
 
             OkBtn.BackColor = ColorTranslator.FromHtml((string)themeConfig["primaryBtnBgr"]);
             CancelBtn.BackColor = ColorTranslator.FromHtml((string)themeConfig["secondaryBtnBgr"]);
-            
+
             OkBtn.ForeColor = ColorTranslator.FromHtml((string)themeConfig["primaryBtnFgr"]);
             CancelBtn.ForeColor = ColorTranslator.FromHtml((string)themeConfig["primaryBtnFgr"]);
+        }
+
+        private void AmountForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            _styleWatcher.onStyleChanged -= OnStyleChanged;
         }
     }
 }

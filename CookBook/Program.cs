@@ -55,10 +55,10 @@ namespace CookBook
 
             //Registers Forms for Dependency Injection, with Data Sharing(one instance over all)
             services.AddSingleton(DesktopFileWatcher.Instance);
+            services.AddSingleton(StyleWatcher.Instance);
 
             //Returns the configured Services
             return services;
-
         }
     }
 }

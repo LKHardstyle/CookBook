@@ -24,10 +24,11 @@ namespace CookBook.UI
     {
         private readonly IRecipeTypesRepository _recipeTypesRepository;
         private readonly IServiceProvider _serviceProvider;
-        private readonly IRecipesRepository _recipesRepository;      
+        private readonly IRecipesRepository _recipesRepository;
         private bool _isUserImageAdded = false;
         private int _RecipeToEditId;
         private List<RecipeWithType> _recipesCache;
+        StyleWatcher _styleWatcher;
 
         public RecipesForm(IRecipeTypesRepository recipeTypesRepository, IServiceProvider serviceProvider, IRecipesRepository recipesRepository)
         {
@@ -35,9 +36,19 @@ namespace CookBook.UI
             _recipeTypesRepository = recipeTypesRepository;
             _serviceProvider = serviceProvider;
             _recipesRepository = recipesRepository;
-            _recipesRepository.OnError += (message) => MessageBox.Show(message);  
-            
-            ApplyStyles();
+            _recipesRepository.OnError += (message) => MessageBox.Show(message);
+
+            _styleWatcher = serviceProvider.GetRequiredService<StyleWatcher>();
+            _styleWatcher.onStyleChanged += OnStyleChanged;
+
+            ApplyStyles(StyleWatcher.CurrentStyle);
+        }
+        private void OnStyleChanged(int style)
+        {
+            Invoke(new Action(() =>
+            {
+                ApplyStyles(style);
+            }));
         }
         private async Task RefreshRecipeTypes()
         {
@@ -98,7 +109,7 @@ namespace CookBook.UI
         private void CustomizeGridAppearance()
         {
             RecipesGrid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            RecipesGrid.AutoGenerateColumns = false;           
+            RecipesGrid.AutoGenerateColumns = false;
 
             DataGridViewColumn[] columns = new DataGridViewColumn[7];
             columns[0] = new DataGridViewTextBoxColumn() { DataPropertyName = "Id", Visible = false };
@@ -293,15 +304,15 @@ namespace CookBook.UI
         private void RecipeFilterCbx_SelectedIndexChanged(object sender, EventArgs e)
         {
             FilterGridData();
-        }        
-        private void ApplyStyles()
+        }
+        private void ApplyStyles(int? theme = 1)
         {
-            JObject themeConfig = ConfigurationManager.LoadThemeConfig();
+            JObject themeConfig = ConfigurationManager.LoadThemeConfig(theme);
 
             string primaryBgr = (string)themeConfig["primaryBgr"];
             string secondaryBgr = (string)themeConfig["secondaryBgr"];
             string primaryFgr = (string)themeConfig["primaryFgr"];
-            
+
 
             LeftPanel.BackColor = ColorTranslator.FromHtml(primaryBgr);
             RightPanel.BackColor = ColorTranslator.FromHtml(secondaryBgr);
@@ -325,6 +336,11 @@ namespace CookBook.UI
             AddRecipeBtn.ForeColor = ColorTranslator.FromHtml((string)themeConfig["secondaryBtnFgr"]);
             ClearAllFieldsBtn.ForeColor = ColorTranslator.FromHtml((string)themeConfig["tertiaryBtnFgr"]);
             AddRecipeTypeBtn.ForeColor = ColorTranslator.FromHtml((string)themeConfig["primaryBtnFgr"]);
+        }
+
+        private void RecipesForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            _styleWatcher.onStyleChanged -= OnStyleChanged;
         }
     }
 }

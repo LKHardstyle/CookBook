@@ -23,6 +23,7 @@ namespace CookBook.UI
         private readonly IServiceProvider _serviceProvider;
         private FoodManagerCache _foodManagerCache;
         DesktopFileWatcher _desktopFileWatcher;
+        StyleWatcher _styleWatcher;
         private bool _isUserImageAdded = false;
         public enum RecipeAvailability { Available, Unavailable };
         public FoodManagerForm(IServiceProvider serviceProvider)
@@ -38,8 +39,20 @@ namespace CookBook.UI
 
             NotificationIcon.Visible = DesktopFileWatcher.CurrentFileStatus;
 
-            ApplyStyles();
+            _styleWatcher = _serviceProvider.GetRequiredService<StyleWatcher>();
+            _styleWatcher.onStyleChanged += OnStyleChanged;
+
+            ApplyStyles(StyleWatcher.CurrentStyle);
         }
+
+        private void OnStyleChanged(int style)
+        {
+            Invoke(new Action(() =>
+            {
+                ApplyStyles(style);
+            }));
+        }
+
         private void OnFileStatusChanged(bool fileExists)
         {
             if (this.IsHandleCreated)
@@ -180,9 +193,9 @@ namespace CookBook.UI
         {
             notifcationTooltip.Hide(NotificationIcon);
         }
-        private void ApplyStyles()
+        private void ApplyStyles(int ?theme = 1 )
         {
-            JObject themeConfig = ConfigurationManager.LoadThemeConfig();
+            JObject themeConfig = ConfigurationManager.LoadThemeConfig(theme);
 
             string primaryBgr = (string)themeConfig["primaryBgr"];
             string secondaryBgr = (string)themeConfig["secondaryBgr"];
@@ -213,6 +226,11 @@ namespace CookBook.UI
             UnavailableBtn.ForeColor = ColorTranslator.FromHtml((string)themeConfig["primaryBtnFgr"]);
             PrepareFoodBtn.ForeColor = ColorTranslator.FromHtml((string)themeConfig["primaryBtnFgr"]);
             CreateShoppingListBtn.ForeColor = ColorTranslator.FromHtml((string)themeConfig["primaryBtnFgr"]);
-        }        
+        }
+
+        private void FoodManagerForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            _styleWatcher.onStyleChanged -= OnStyleChanged;
+        }
     }
 }

@@ -34,6 +34,7 @@
             FoodManagerBtn = new Button();
             NotificationIcon = new PictureBox();
             notifcationTooltip = new ToolTip(components);
+            HomePanel = new Panel();
             ((System.ComponentModel.ISupportInitialize)NotificationIcon).BeginInit();
             SuspendLayout();
             // 
@@ -100,6 +101,14 @@
             NotificationIcon.MouseEnter += NotificationIcon_MouseEnter;
             NotificationIcon.MouseLeave += NotificationIcon_MouseLeave;
             // 
+            // HomePanel
+            // 
+            HomePanel.BackColor = Color.FromArgb(45, 66, 91);
+            HomePanel.Location = new Point(0, 0);
+            HomePanel.Name = "HomePanel";
+            HomePanel.Size = new Size(373, 335);
+            HomePanel.TabIndex = 10;
+            // 
             // HomeForm
             // 
             AutoScaleDimensions = new SizeF(13F, 30F);
@@ -109,6 +118,7 @@
             Controls.Add(FoodManagerBtn);
             Controls.Add(RecipesBtn);
             Controls.Add(FridgeBtn);
+            Controls.Add(HomePanel);
             Font = new Font("Segoe UI", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             Margin = new Padding(5, 6, 5, 6);
             Name = "HomeForm";
@@ -125,5 +135,6 @@
         private Button FoodManagerBtn;
         private PictureBox NotificationIcon;
         private ToolTip notifcationTooltip;
+        private Panel HomePanel;
     }
 }

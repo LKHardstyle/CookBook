@@ -92,6 +92,7 @@
             Margin = new Padding(5, 6, 5, 6);
             Name = "RecipeTypesForm";
             Text = "RecipeTypesForm";
+            FormClosing += RecipeTypesForm_FormClosing;
             Load += RecipeTypesForm_Load;
             ResumeLayout(false);
             PerformLayout();

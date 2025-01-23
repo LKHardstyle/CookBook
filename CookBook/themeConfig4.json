@@ -1,0 +1,12 @@
+﻿{
+  "primaryBgr": "#2a1b3d",
+  "secondaryBgr": "#3e2c5b",
+  "primaryFgr": "#d1c6e0",
+
+  "primaryBtnBgr": "#6e5097",
+  "secondaryBtnBgr": "#c6698c",
+  "tertiaryBtnBgr": "#a47b61",
+  "primaryBtnFgr": "#d1c6e0",
+  "secondaryBtnFgr": "#2a1b3d",
+  "tertiaryBtnFgr": "#2a1b3d"
+}

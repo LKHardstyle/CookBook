@@ -101,6 +101,7 @@
             Margin = new Padding(5, 6, 5, 6);
             Name = "AmountForm";
             Text = "AmountForm";
+            FormClosing += AmountForm_FormClosing;
             ((System.ComponentModel.ISupportInitialize)AmountNum).EndInit();
             Panel.ResumeLayout(false);
             Panel.PerformLayout();

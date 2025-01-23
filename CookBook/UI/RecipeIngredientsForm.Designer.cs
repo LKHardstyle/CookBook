@@ -121,6 +121,7 @@
             Margin = new Padding(5, 6, 5, 6);
             Name = "RecipeIngredientsForm";
             Text = "RecipeIngredientsForm";
+            FormClosing += RecipeIngredientsForm_FormClosing;
             Load += RecipeIngredientsForm_Load;
             ResumeLayout(false);
             PerformLayout();

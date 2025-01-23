@@ -235,6 +235,7 @@
             Margin = new Padding(4);
             Name = "IngredientsForm";
             Text = "My fridge";
+            FormClosing += IngredientsForm_FormClosing;
             Load += IngredientsForm_Load;
             ((System.ComponentModel.ISupportInitialize)PricePer100gNum).EndInit();
             ((System.ComponentModel.ISupportInitialize)WeightNum).EndInit();

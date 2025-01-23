@@ -55,11 +55,11 @@ namespace CookBook.Services
         private DesktopFileWatcher() 
         {
             _fileCheckWorker = new BackgroundWorker();
-            _fileCheckWorker.DoWork += FileCheckWOrker_DoWork;
+            _fileCheckWorker.DoWork += FileCheckWorker_DoWork;
             _fileCheckWorker.RunWorkerAsync();
         }
 
-        private void FileCheckWOrker_DoWork(object? sender, DoWorkEventArgs e)
+        private void FileCheckWorker_DoWork(object? sender, DoWorkEventArgs e)
         {
             string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
             string filePath = Path.Combine(desktopPath, "ShoppingList.txt");

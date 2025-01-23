@@ -230,6 +230,7 @@
             Margin = new Padding(5, 6, 5, 6);
             Name = "FoodManagerForm";
             Text = "FoodManagerForm";
+            FormClosing += FoodManagerForm_FormClosing;
             Load += FoodManagerForm_Load;
             LeftPanel.ResumeLayout(false);
             RightPanel.ResumeLayout(false);

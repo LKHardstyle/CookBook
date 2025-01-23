@@ -112,7 +112,7 @@
             RecipeFilterCbx.FormattingEnabled = true;
             RecipeFilterCbx.Location = new Point(29, 40);
             RecipeFilterCbx.Name = "RecipeFilterCbx";
-            RecipeFilterCbx.Size = new Size(915, 38);
+            RecipeFilterCbx.Size = new Size(580, 38);
             RecipeFilterCbx.TabIndex = 7;
             RecipeFilterCbx.SelectedIndexChanged += RecipeFilterCbx_SelectedIndexChanged;
             // 
@@ -241,6 +241,7 @@
             Margin = new Padding(5, 6, 5, 6);
             Name = "RecipesForm";
             Text = "RecipesForm";
+            FormClosing += RecipesForm_FormClosing;
             Load += RecipesForm_Load;
             ((System.ComponentModel.ISupportInitialize)RecipesGrid).EndInit();
             ((System.ComponentModel.ISupportInitialize)RecipePictureBox).EndInit();
