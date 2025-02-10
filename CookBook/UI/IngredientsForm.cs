@@ -241,7 +241,6 @@ namespace CookBook.UI
             AddToFridgeBtn.ForeColor = ColorTranslator.FromHtml((string)themeConfig["secondaryBtnFgr"]);
             ClearFieldsBtn.ForeColor = ColorTranslator.FromHtml((string)themeConfig["tertiaryBtnFgr"]);
         }
-
         private void IngredientsForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             _styleWatcher.onStyleChanged -= OnStyleChanged;

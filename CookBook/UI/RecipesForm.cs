@@ -48,6 +48,7 @@ namespace CookBook.UI
             Invoke(new Action(() =>
             {
                 ApplyStyles(style);
+                
             }));
         }
         private async Task RefreshRecipeTypes()
@@ -101,15 +102,24 @@ namespace CookBook.UI
         {
             await RefreshRecipeTypes();
             RefreshRecipesCache();
-            CustomizeGridAppearance();
+            CustomizeGridAppearance(StyleWatcher.CurrentStyle);
             RecipePictureBox.Image = ImageHelper.PlaceholderImage;
             RecipePictureBox.SizeMode = PictureBoxSizeMode.StretchImage;
             EditRecipeBtn.Visible = false;
         }
-        private void CustomizeGridAppearance()
+        private void CustomizeGridAppearance(int? theme = 1)
         {
-            RecipesGrid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            JObject themeConfig = ConfigurationManager.LoadThemeConfig(theme);
+
+            RecipesGrid.AllowUserToResizeColumns = false;
+            RecipesGrid.AllowUserToResizeRows = false;
             RecipesGrid.AutoGenerateColumns = false;
+            RecipesGrid.EnableHeadersVisualStyles = false;
+            RecipesGrid.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+            RecipesGrid.CellBorderStyle = DataGridViewCellBorderStyle.None;
+            RecipesGrid.BorderStyle = BorderStyle.None;
+            RecipesGrid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;            
+            RecipesGrid.RowTemplate.Height = 40;
 
             DataGridViewColumn[] columns = new DataGridViewColumn[7];
             columns[0] = new DataGridViewTextBoxColumn() { DataPropertyName = "Id", Visible = false };
@@ -122,7 +132,14 @@ namespace CookBook.UI
                 Text = "Edit",
                 Name = "EditBtn",
                 HeaderText = "",
-                UseColumnTextForButtonValue = true
+                UseColumnTextForButtonValue = true,
+                FlatStyle = FlatStyle.Flat,
+                DefaultCellStyle = new DataGridViewCellStyle()
+                {
+                    BackColor = ColorTranslator.FromHtml((string)themeConfig["primaryBtnBgr"]),
+                    ForeColor = ColorTranslator.FromHtml((string)themeConfig["primaryBtnFgr"]),
+                    Alignment = DataGridViewContentAlignment.MiddleCenter
+                }
             };
             columns[5] = new DataGridViewButtonColumn()
             {
@@ -130,15 +147,28 @@ namespace CookBook.UI
                 Text = "Delete",
                 Name = "DeleteBtn",
                 HeaderText = "",
-                UseColumnTextForButtonValue = true
+                UseColumnTextForButtonValue = true,
+                FlatStyle = FlatStyle.Flat,
+                DefaultCellStyle = new DataGridViewCellStyle()
+                {
+                    BackColor = ColorTranslator.FromHtml((string)themeConfig["secondaryBtnBgr"]),
+                    ForeColor = ColorTranslator.FromHtml((string)themeConfig["secondaryBtnFgr"]),
+                    Alignment = DataGridViewContentAlignment.MiddleCenter
+                }
             };
             columns[6] = new DataGridViewButtonColumn()
             {
-
                 Text = "Ingredients",
                 Name = "IngredientsBtn",
                 HeaderText = "",
-                UseColumnTextForButtonValue = true
+                UseColumnTextForButtonValue = true,                
+                FlatStyle = FlatStyle.Flat,
+                DefaultCellStyle = new DataGridViewCellStyle()
+                {
+                    BackColor = ColorTranslator.FromHtml((string)themeConfig["tertiaryBtnBgr"]),
+                    ForeColor = ColorTranslator.FromHtml((string)themeConfig["tertiaryBtnFgr"]),
+                    Alignment = DataGridViewContentAlignment.MiddleCenter
+                }
             };
             RecipesGrid.RowHeadersVisible = false;
             RecipesGrid.Columns.Clear();
@@ -336,6 +366,14 @@ namespace CookBook.UI
             AddRecipeBtn.ForeColor = ColorTranslator.FromHtml((string)themeConfig["secondaryBtnFgr"]);
             ClearAllFieldsBtn.ForeColor = ColorTranslator.FromHtml((string)themeConfig["tertiaryBtnFgr"]);
             AddRecipeTypeBtn.ForeColor = ColorTranslator.FromHtml((string)themeConfig["primaryBtnFgr"]);
+
+            //Grid Styling
+            RecipesGrid.BackgroundColor = ColorTranslator.FromHtml(primaryBgr);
+            RecipesGrid.ColumnHeadersDefaultCellStyle.BackColor = ColorTranslator.FromHtml(secondaryBgr);
+            RecipesGrid.ColumnHeadersDefaultCellStyle.ForeColor = ColorTranslator.FromHtml(primaryFgr);
+            RecipesGrid.DefaultCellStyle.BackColor = ColorTranslator.FromHtml(primaryBgr);
+            RecipesGrid.DefaultCellStyle.ForeColor = ColorTranslator.FromHtml(primaryFgr);
+            RecipesGrid.DefaultCellStyle.SelectionBackColor = Color.SteelBlue;
         }
 
         private void RecipesForm_FormClosing(object sender, FormClosingEventArgs e)
