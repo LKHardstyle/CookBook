@@ -78,9 +78,19 @@ namespace CookBook.UI
         }
         private void CustomizeGridAppearance()
         {
-            IngredientsGrid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            IngredientsGrid.AutoGenerateColumns = false;
+            JObject themeConfig = ConfigurationManager.LoadThemeConfig();
 
+            IngredientsGrid.AllowUserToResizeColumns = false;
+            IngredientsGrid.AllowUserToResizeRows = false;
+            IngredientsGrid.AutoGenerateColumns = false;
+            IngredientsGrid.EnableHeadersVisualStyles = false;
+            IngredientsGrid.RowHeadersVisible = false;
+            IngredientsGrid.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+            IngredientsGrid.CellBorderStyle = DataGridViewCellBorderStyle.None;
+            IngredientsGrid.BorderStyle = BorderStyle.None;
+            IngredientsGrid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            IngredientsGrid.RowTemplate.Height = 40;
+            
             DataGridViewColumn[] columns = new DataGridViewColumn[8];
             columns[0] = new DataGridViewTextBoxColumn() { DataPropertyName = "Id", Visible = false };
             columns[1] = new DataGridViewTextBoxColumn() { DataPropertyName = "Name", HeaderText = "Name", SortMode = DataGridViewColumnSortMode.Automatic };
@@ -90,17 +100,32 @@ namespace CookBook.UI
             columns[5] = new DataGridViewTextBoxColumn() { DataPropertyName = "KCalPer100g", HeaderText = "Kcal(100g)", SortMode = DataGridViewColumnSortMode.Automatic };
             columns[6] = new DataGridViewButtonColumn()
             {
-                Text = "Delete",
-                Name = "DeleteBtn",
-                HeaderText = "",
-                UseColumnTextForButtonValue = true
-            };
-            columns[7] = new DataGridViewButtonColumn()
-            {
                 Text = "Edit",
                 Name = "EditBtn",
                 HeaderText = "",
-                UseColumnTextForButtonValue = true
+                UseColumnTextForButtonValue = true,
+                FlatStyle = FlatStyle.Flat,
+                DefaultCellStyle = new DataGridViewCellStyle()
+                {
+                    BackColor = ColorTranslator.FromHtml((string)themeConfig["primaryBtnBgr"]),
+                    ForeColor = ColorTranslator.FromHtml((string)themeConfig["primaryBtnFgr"]),
+                    Alignment = DataGridViewContentAlignment.MiddleCenter
+                }
+            };
+            columns[7] = new DataGridViewButtonColumn()
+            {
+                
+                Text = "Delete",
+                Name = "DeleteBtn",
+                HeaderText = "",
+                UseColumnTextForButtonValue = true,
+                FlatStyle = FlatStyle.Flat,
+                DefaultCellStyle = new DataGridViewCellStyle()
+                {
+                    BackColor = ColorTranslator.FromHtml((string)themeConfig["secondaryBtnBgr"]),
+                    ForeColor = ColorTranslator.FromHtml((string)themeConfig["secondaryBtnFgr"]),
+                    Alignment = DataGridViewContentAlignment.MiddleCenter
+                }
             };
 
             IngredientsGrid.Columns.Clear();
@@ -240,6 +265,14 @@ namespace CookBook.UI
             EditIngredientBtn.ForeColor = ColorTranslator.FromHtml((string)themeConfig["primaryBtnFgr"]);
             AddToFridgeBtn.ForeColor = ColorTranslator.FromHtml((string)themeConfig["secondaryBtnFgr"]);
             ClearFieldsBtn.ForeColor = ColorTranslator.FromHtml((string)themeConfig["tertiaryBtnFgr"]);
+
+            //Grid Styling
+            IngredientsGrid.BackgroundColor = ColorTranslator.FromHtml(primaryBgr);
+            IngredientsGrid.ColumnHeadersDefaultCellStyle.BackColor = ColorTranslator.FromHtml(secondaryBgr);
+            IngredientsGrid.ColumnHeadersDefaultCellStyle.ForeColor = ColorTranslator.FromHtml(primaryFgr);
+            IngredientsGrid.DefaultCellStyle.BackColor = ColorTranslator.FromHtml(primaryBgr);
+            IngredientsGrid.DefaultCellStyle.ForeColor = ColorTranslator.FromHtml(primaryFgr);
+            IngredientsGrid.DefaultCellStyle.SelectionBackColor = Color.SteelBlue;
         }
         private void IngredientsForm_FormClosing(object sender, FormClosingEventArgs e)
         {
